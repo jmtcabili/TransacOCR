@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "socrates": {
+      "source": "RoundTable02/socrates-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "17be5e3b23fd6eccb316f6d007ad4dcc4d1a652aa6688a809f5ea658186ff651"
+    }
+  }
+}
