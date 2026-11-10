@@ -1,7 +1,60 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Receipt",
+  "description": "Information needed for labelling images for this project's OCR tasks",
   "type": "object",
   "properties": {},
-  "required": []
+  "required": ["amount", "fee", "total", "date", "reference_number", "sender", "recipient"],
+  "_comment": "TransacOCR receipt test schema. Model output shape and hand-labeled ground-truth shape. Account numbers stored masked (last four digits only).",
+  "image_file": "string (filename of the receipt image, e.g. gcash_0001.png)",
+  "provider": "string | null (GCash, Maya, BDO, BPI, MariBank, GoTyme, Wise, other)",
+  "status": "string | null (successful, pending, failed). Only successful transactions are scored as transactions.",
+  "transaction_type": "string | null (send money, cash in, cash out, bill payment, QR payment, remittance, other)",
+  "amount": {
+    "value": "number | null (parsed, e.g. 1500.00)",
+    "currency": "string (default PHP)",
+    "raw_text": "string | null (as printed, e.g. \"₱1,500.00\")"
+  },
+  "fee": {
+    "value": "number | null (service charge, if printed; 0 if shown as free)",
+    "raw_text": "string | null"
+  },
+  "total": {
+    "value": "number | null (amount plus fee, if printed)",
+    "raw_text": "string | null"
+  },
+  "date": {
+    "value": "string | null (ISO 8601, YYYY-MM-DD)",
+    "raw_text": "string | null (as printed, e.g. \"Nov 09, 2026\" or \"09/11/2026\")",
+    "time": "string | null (HH:MM, 24-hour, if shown)"
+  },
+  "reference_number": {
+    "value": "string | null (alphanumeric, no spaces or hyphens)",
+    "raw_text": "string | null (including label, e.g. \"Ref No. 1234 5678 9012\")"
+  },
+  "sender": {
+    "name": "string | null (as printed)",
+    "account": {
+      "value": "string | null (masked, last four digits only, e.g. \"****1182\")",
+      "raw_text": "string | null (as printed before masking)"
+    }
+  },
+  "recipient": {
+    "name": "string | null (as printed)",
+    "account": {
+      "value": "string | null (masked, last four digits only, e.g. \"****4417\")",
+      "raw_text": "string | null (as printed before masking)"
+    }
+  },
+  "merchant": {
+    "name": "string | null (biller or business, e.g. Meralco, Globe Postpaid). Null for person-to-person transfers.",
+    "category": "string | null (bill payment, QR payment, online purchase, other)"
+  },
+  "confidence": {
+    "amount": "number 0-1 | null",
+    "date": "number 0-1 | null",
+    "reference_number": "number 0-1 | null",
+    "recipient": "number 0-1 | null",
+    "merchant": "number 0-1 | null"
+  }
 }
