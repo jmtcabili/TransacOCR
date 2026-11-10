@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import httpx
-from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request
+from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request, status
 
 TOKEN = os.environ["BOT_TOKEN"]
 SECRET = os.environ["WEBHOOK_SECRET"]
@@ -75,6 +75,13 @@ def extract_image(msg: dict) -> dict | None:
 async def webhook(request: Request, background: BackgroundTasks,
                   x_telegram_bot_api_secret_token: str | None = Header(default=None)):
     # TODO 1: reject bad secret (403). Use hmac.compare_digest against SECRET.
+
+    #check if header is missing or does not match secret token
+    if not x_telegram_bot_api_secret_token or not (hmac.compare_digest(x_telegram_bot_api_secret_token.encode(), SECRET.encode())):
+         raise HTTPException(
+            status_code=403,
+            detail="Access forbidden",
+        )
 
     update = await request.json()
     msg = update.get("message")

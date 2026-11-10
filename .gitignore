@@ -1,0 +1,12 @@
+# Raw data (private receipts) is ignored; only synthetic/redacted samples are committed
+data/*
+!data/samples/
+!data/samples/**
+images
+
+.venv/
+__pycache__/
+*.pyc
+.env
+
+
