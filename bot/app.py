@@ -88,19 +88,25 @@ async def webhook(request: Request, background: BackgroundTasks,
     img = extract_image(msg) if msg else None
     if not img:
         # TODO 2: non-image message. What do you return so Telegram doesn't retry?
-        ...
+        return {"ok":True}
 
     try:
         # TODO 3: call insert_receipt(update["update_id"], msg, img)
-        ...
+        insert_receipt(update["update_id"], msg, img)
     except sqlite3.IntegrityError:
         # TODO 4: duplicate -> which status code? Do you start a download?
-        ...
+        #start download only if current update id has no stored_path val 
+        background.add_task(recover_stuck)
+
     except sqlite3.OperationalError:
         # TODO 5: DB unreachable -> which status code? (raise HTTPException)
-        ...
+        raise HTTPException(
+            status_code=500,
+            detail="DB Unreachable"
+        )
 
     # TODO 6: queue the download with background.add_task(...). What does it receive?
+    background.add_task(download_receipt, update["update_id"])
     return {"ok": True}
 
 
