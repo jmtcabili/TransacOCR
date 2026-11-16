@@ -1,0 +1,24 @@
+# OCR pipeline / experiments (results/*.ipynb)
+# Direct dependencies only; versions match the previous .venv freeze.
+
+--extra-index-url https://www.paddlepaddle.org.cn/packages/stable/cu126/
+
+# Engines
+rapidocr==3.10.0
+onnxruntime
+paddleocr==3.7.0
+pytesseract==0.3.13   # also needs the Tesseract binary installed on the system
+paddlepaddle-gpu==3.3.1   # CUDA 12.6 build for GTX 1050 Ti from paddle's index
+ollama
+
+# Image / data
+opencv-python-headless==4.12.0.88
+numpy==2.2.6
+pandas==2.3.3
+matplotlib==3.11.2
+
+# Notebooks
+ipykernel==7.4.0
+ipywidgets
+
+
