@@ -10,7 +10,10 @@ Terms are defined in [GLOSSARY.md](GLOSSARY.md); the reasoning behind non-obviou
 
 ![TransacOCR architecture](docs/images/architecture.png)
 
-_Diagram to be added at `docs/images/architecture.png`._ Flow: Telegram long polling → handlers (allowlist, instant ack, save the original image) → single FIFO worker → recogniser (RapidOCR boxes, glm-ocr per row) → per-Provider parser and validation → SQLite → reply. A daily job on the same event loop builds the end-of-day report and CSV.
+*Diagram to be updated with MVP approach*
+- long polling over Telegram Webhooks to avoid any public URLs
+- FIFO when handling images sent through Telegram
+- Hybrid OCR approach with VLM (RapidOCR + GLM-OCR)
 
 ## Run
 
