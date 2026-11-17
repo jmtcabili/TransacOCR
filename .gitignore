@@ -9,4 +9,12 @@ __pycache__/
 *.pyc
 .env
 
+labels/
+lessons/
+assets/
+reference/
 
+
+eval/cache/
+
+*.db
